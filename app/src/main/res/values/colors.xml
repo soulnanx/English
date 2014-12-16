@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="action_bar">#004D40</color>
+    <color name="positive_button">#60BA5C</color>
+    <color name="branco">#f1f1f1</color>
+
+    <color name="background_default">#e5e5e5</color>
+    <color name="background_card_default">#FFFFFF</color>
+    <color name="text_card">#929292</color>
+    <color name="separator_card">#e5e5e5</color>
+
+
+    <color name="azul">#304FFE</color>
+</resources>
