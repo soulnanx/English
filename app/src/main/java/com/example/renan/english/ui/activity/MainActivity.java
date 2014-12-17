@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.renan.english.R;
-import com.example.renan.english.util.SectionsPagerAdapter;
+import com.example.renan.english.adapter.SectionsPagerAdapter;
 
 public class MainActivity extends ActionBarActivity {
 

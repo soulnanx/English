@@ -12,10 +12,10 @@ import android.widget.Toast;
 
 import com.example.renan.english.R;
 import com.example.renan.english.app.App;
-import com.example.renan.english.callback.CallbackDialog;
 import com.example.renan.english.dao.MajorityNoteDAO;
+import com.example.renan.english.dao.PhraseDAO;
 import com.example.renan.english.entity.MajorityNote;
-import com.example.renan.english.ui.fragment.MajorityNoteFragment;
+import com.example.renan.english.entity.Phrase;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -23,24 +23,24 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 /**
  * Created by renan on 12/15/14.
  */
-public class CreateNoteDialog extends DialogFragment {
+public class CreatePhraseDialog extends DialogFragment {
 
     public static final int OK = 1;
     private static final int CANCEL = 2;
     private UIHelper uiHelper;
     private View view;
     private App app;
-    private MajorityNote note;
+    private Phrase phrase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.dialog_create_note, container);
+        view = inflater.inflate(R.layout.dialog_create_phrase, container);
         init();
         return view;
     }
 
     private void init() {
-        note = new MajorityNote();
+        phrase = new Phrase();
         app = (App) this.getActivity().getApplication();
         uiHelper = new UIHelper();
         setEvents();
@@ -66,39 +66,35 @@ public class CreateNoteDialog extends DialogFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateNoteDialog.this.getTargetFragment().onActivityResult(getTargetRequestCode(), CANCEL, getActivity().getIntent());
-                CreateNoteDialog.this.dismiss();
+                CreatePhraseDialog.this.getTargetFragment().onActivityResult(getTargetRequestCode(), CANCEL, getActivity().getIntent());
+                CreatePhraseDialog.this.dismiss();
             }
         };
     }
 
     private void saveNote() {
-        note.setTitleEn(uiHelper.titleEn.getText().toString());
-        note.setTitlePt(uiHelper.titlePt.getText().toString());
-        MajorityNoteDAO.save(app.adapter, note);
+        Bundle bundle = getArguments();
+        phrase.setIdMajorityNote(bundle.getLong("idMajorityNote"));
+        phrase.setTitle(uiHelper.title.getText().toString());
+        PhraseDAO.save(app.adapter, phrase);
         this.getTargetFragment().onActivityResult(getTargetRequestCode(), OK, getActivity().getIntent());
 
-        CreateNoteDialog.this.dismiss();
+        CreatePhraseDialog.this.dismiss();
     }
 
     private class UIHelper implements Validator.ValidationListener {
         final Validator validator;
 
         @Required(order = 1, message = "it's mandatory =(")
-        EditText titleEn;
-
-        @Required(order = 2, message = "it's mandatory =(")
-        EditText titlePt;
-
+        EditText title;
 
         LinearLayout btnOK;
         LinearLayout btnCancel;
 
         public UIHelper() {
-            this.titleEn = (EditText) view.findViewById(R.id.edt_note_title_en);
-            this.titlePt = (EditText) view.findViewById(R.id.edt_note_title_pt);
-            this.btnOK = (LinearLayout) view.findViewById(R.id.note_create_dialog_btn_ok);
-            this.btnCancel = (LinearLayout) view.findViewById(R.id.note_create_dialog_btn_cancel);
+            this.title = (EditText) view.findViewById(R.id.edt_phrase);
+            this.btnOK = (LinearLayout) view.findViewById(R.id.phrase_create_dialog_btn_ok);
+            this.btnCancel = (LinearLayout) view.findViewById(R.id.phrase_create_dialog_btn_cancel);
 
             validator = new Validator(this);
             validator.setValidationListener(this);
@@ -118,7 +114,7 @@ public class CreateNoteDialog extends DialogFragment {
                 failedView.requestFocus();
                 ((TextView) failedView).setError(message);
             } else {
-                Toast.makeText(CreateNoteDialog.this.getActivity(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreatePhraseDialog.this.getActivity(), message, Toast.LENGTH_SHORT).show();
             }
         }
     }

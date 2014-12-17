@@ -2,11 +2,16 @@ package com.example.renan.english.app;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.codeslap.persistence.DatabaseSpec;
 import com.codeslap.persistence.Persistence;
 import com.codeslap.persistence.PersistenceConfig;
 import com.codeslap.persistence.SqlAdapter;
+import com.example.renan.english.dao.MajorityNoteDAO;
+import com.example.renan.english.dao.PhraseDAO;
+import com.example.renan.english.entity.Phrase;
+import com.example.renan.english.entity.MajorityNote;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +36,11 @@ public class App extends Application{
     }
 
     private void initDatabase() {
-        DatabaseSpec database = PersistenceConfig.registerSpec(1);
+        DatabaseSpec database = PersistenceConfig.registerSpec(3);
+        database.match(MajorityNote.class);
+        database.match(Phrase.class);
         adapter = Persistence.getAdapter(this);
     }
-
-//    public void savePerson(Person person){
-//        adapter.store(person);
-//    }
-//
-//    public List<Person> findAllPerson(){
-//        return adapter.findAll(Person.class);
-//    }
 
     public void registerTask(AsyncTask task){
         if(task != null){

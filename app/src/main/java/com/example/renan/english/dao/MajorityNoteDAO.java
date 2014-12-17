@@ -3,6 +3,7 @@ package com.example.renan.english.dao;
 
 import com.codeslap.persistence.SqlAdapter;
 import com.example.renan.english.entity.MajorityNote;
+import com.example.renan.english.entity.Phrase;
 
 import java.util.List;
 
@@ -11,8 +12,8 @@ import java.util.List;
  */
 public class MajorityNoteDAO {
 
-    public static MajorityNote save(SqlAdapter adapter, MajorityNote majorityNote){
-        return (MajorityNote)adapter.store(majorityNote, majorityNote.getClass());
+    public static Long save(SqlAdapter adapter, MajorityNote majorityNote){
+        return (Long)adapter.store(majorityNote, majorityNote.getClass());
     }
 
     public static MajorityNote findById(SqlAdapter adapter, long id){
@@ -22,4 +23,11 @@ public class MajorityNoteDAO {
     public static List<MajorityNote> findAll(SqlAdapter adapter){
         return adapter.findAll(MajorityNote.class);
     }
+
+    public static int delete(SqlAdapter adapter, long id){
+        PhraseDAO.deleteByIdMajorityNote(adapter, id);
+        return adapter.delete(new MajorityNote(id));
+    }
+
+
 }

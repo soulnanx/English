@@ -17,6 +17,7 @@ public class MajorityNote {
     }
 
     public MajorityNote(long id) {
+        this.id = id;
     }
 
     public long getId() {

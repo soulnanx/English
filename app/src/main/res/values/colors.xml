@@ -12,4 +12,5 @@
 
 
     <color name="azul">#304FFE</color>
+    <color name="gray_background">#ffdddddd</color>
 </resources>
