@@ -63,11 +63,11 @@ public class MajorityNoteFragment extends Fragment {
 
     private void showAndHideList(){
         if (MajorityNoteDAO.findAll(app.adapter).size() > 0){
-            ((View) view.findViewById(R.id.text_empty)).setVisibility(View.GONE);
-            ((View) view.findViewById(R.id.list_majority_notes)).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.text_empty).setVisibility(View.GONE);
+            view.findViewById(R.id.list_majority_notes).setVisibility(View.VISIBLE);
         } else {
-            ((View) view.findViewById(R.id.list_majority_notes)).setVisibility(View.GONE);
-            ((View) view.findViewById(R.id.text_empty)).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.list_majority_notes).setVisibility(View.GONE);
+            view.findViewById(R.id.text_empty).setVisibility(View.VISIBLE);
         }
     }
 
@@ -251,6 +251,7 @@ public class MajorityNoteFragment extends Fragment {
         createPhraseDialog.setTargetFragment(this, DIALOG_CREATE_NOTE);
         Bundle b = new Bundle();
         b.putLong("idMajorityNote", majorityNoteClicked.getId());
+        b.putString("titleEn", majorityNoteClicked.getTitleEn());
         createPhraseDialog.setArguments(b);
         createPhraseDialog.show(getFragmentManager(), "dialog");
     }

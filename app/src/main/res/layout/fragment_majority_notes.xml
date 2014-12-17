@@ -26,7 +26,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@drawable/ic_plus"
-        fab:fab_colorNormal="@color/action_bar"
+        fab:fab_colorNormal="@color/livenglish_blue"
         fab:fab_colorPressed="@color/positive_button"/>
 
 </FrameLayout>

@@ -49,7 +49,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:background="@drawable/background">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
                 android:gravity="center"
                 android:text="@string/dialog_cancel"
                 android:textStyle="bold"
-                android:textColor="#777" />
+                android:background="@drawable/background"
+                android:textColor="@drawable/text_non_important"/>
 
         </LinearLayout>
 
@@ -68,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@drawable/background">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -77,8 +80,8 @@
                 android:gravity="center"
                 android:text="@string/dialog_save"
                 android:textStyle="bold"
-                android:background="@android:color/white"
-                android:textColor="@color/action_bar" />
+                android:background="@drawable/background"
+                android:textColor="@drawable/text_important" />
         </LinearLayout>
 
 

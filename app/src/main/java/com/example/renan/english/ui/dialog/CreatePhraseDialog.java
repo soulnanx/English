@@ -1,5 +1,7 @@
 package com.example.renan.english.ui.dialog;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ public class CreatePhraseDialog extends DialogFragment {
     private View view;
     private App app;
     private Phrase phrase;
+    private Bundle bundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,17 +43,34 @@ public class CreatePhraseDialog extends DialogFragment {
     }
 
     private void init() {
+        bundle = getArguments();
         phrase = new Phrase();
         app = (App) this.getActivity().getApplication();
         uiHelper = new UIHelper();
         setEvents();
         getDialog().setCanceledOnTouchOutside(false);
-        getDialog().setTitle(R.string.title_create_dialog_majority_note);
+        getDialog().setTitle(bundle.getString("titleEn"));
     }
 
     private void setEvents() {
         uiHelper.btnOK.setOnClickListener(onClickBtnOk());
         uiHelper.btnCancel.setOnClickListener(onClickBtnCancel());
+        uiHelper.btnValidate.setOnClickListener(onClickBtnValidate());
+    }
+
+    private View.OnClickListener onClickBtnValidate() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (uiHelper.title != null || !uiHelper.title.getText().toString().isEmpty()){
+
+                    Uri uri = Uri.parse("http://www.google.com/?#q= \"" + uiHelper.title.getText().toString() + "\"");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+            }
+        };
     }
 
     private View.OnClickListener onClickBtnOk() {
@@ -73,7 +93,6 @@ public class CreatePhraseDialog extends DialogFragment {
     }
 
     private void saveNote() {
-        Bundle bundle = getArguments();
         phrase.setIdMajorityNote(bundle.getLong("idMajorityNote"));
         phrase.setTitle(uiHelper.title.getText().toString());
         PhraseDAO.save(app.adapter, phrase);
@@ -90,11 +109,13 @@ public class CreatePhraseDialog extends DialogFragment {
 
         LinearLayout btnOK;
         LinearLayout btnCancel;
+        LinearLayout btnValidate;
 
         public UIHelper() {
             this.title = (EditText) view.findViewById(R.id.edt_phrase);
             this.btnOK = (LinearLayout) view.findViewById(R.id.phrase_create_dialog_btn_ok);
             this.btnCancel = (LinearLayout) view.findViewById(R.id.phrase_create_dialog_btn_cancel);
+            this.btnValidate = (LinearLayout) view.findViewById(R.id.phrase_create_dialog_btn_validate);
 
             validator = new Validator(this);
             validator.setValidationListener(this);

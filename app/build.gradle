@@ -32,4 +32,5 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     compile 'com.github.gabrielemariotti.cards:cardslib-core:2.0.1'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
+    compile 'com.android.support:support-v4:21.0.2'
 }
