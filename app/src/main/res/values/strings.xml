@@ -14,8 +14,22 @@
     <string name="msg_create_phrase">A new phrase was created</string>
     <string name="msg_create_phrase_cancel">canceled</string>
     <string name="text_empty">You still don\'t have any notes</string>
-
     <string name="title_activity_splashscreen">LivEnglish</string>
     <string name="dialog_validate">VALIDATE</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="majority_note_label">Majority Note</string>
+    <string name="minor_note_label">Minor Note</string>
+    <string name="title_activity_drawer_layout">DrawerLayout</string>
+    <string name="dialog_creator_label">Dialog Creator</string>
+    <string name="about_label">About App</string>
+    <string name="settings_label">Settings</string>
+    <string name="other_label">Other</string>
 
 </resources>

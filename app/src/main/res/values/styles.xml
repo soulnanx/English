@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/MyActionBar</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/livenglish_orange</item>
+        <item name="colorPrimaryDark">@color/livenglish_blue</item>
+        <item name="colorAccent">@color/livenglish_gray</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:navigationBarColor">@color/livenglish_orange</item>
     </style>
+
+
+    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--<style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">-->
+        <!--<item name="windowActionModeOverlay">true</item>-->
+        <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
+    <!--</style>-->
 
     <!-- ActionBar styles -->
     <style name="MyActionBar"
         parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="windowActionModeOverlay">true</item>
         <item name="android:background">#444</item>
 
         <!-- Support library compatibility -->

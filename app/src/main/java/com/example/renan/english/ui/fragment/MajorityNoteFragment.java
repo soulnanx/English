@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import com.example.renan.english.entity.MajorityNote;
 import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.ui.dialog.CreateNoteDialog;
 import com.example.renan.english.ui.dialog.CreatePhraseDialog;
+import com.gc.materialdesign.views.ButtonFloat;
 
 import java.util.List;
 
@@ -41,8 +43,8 @@ public class MajorityNoteFragment extends Fragment {
     private static final int DIALOG_CREATE_PHRASE = 2;
     private Context context;
     private ActionMode.Callback mCallback;
-    private ActionMode mMode;
     private MajorityNote majorityNoteClicked;
+    private Toolbar toolbar;
 
     public MajorityNoteFragment() {}
 
@@ -93,13 +95,7 @@ public class MajorityNoteFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 majorityNoteClicked = (MajorityNote)parent.getAdapter().getItem(position);
-
-                if (mMode != null) {
-                    return false;
-                } else {
-                    mMode = getActivity().startActionMode(mCallback);
-                }
-
+                    toolbar.startActionMode(mCallback);
                 return true;
             }
         } ;
@@ -126,6 +122,7 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private void configureActionMode() {
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
         mCallback = new ActionMode.Callback() {
             @Override
@@ -135,7 +132,6 @@ public class MajorityNoteFragment extends Fragment {
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                mMode = null;
             }
 
 
@@ -257,11 +253,11 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private class UIHelper{
-        private View btnCreateNote;
+        private ButtonFloat btnCreateNote;
         private ListView listViewMajorityNotes;
 
         private UIHelper() {
-            btnCreateNote = (View) view.findViewById(R.id.create_new_note);
+            btnCreateNote = (ButtonFloat) view.findViewById(R.id.create_new_note);
             listViewMajorityNotes = (ListView) view.findViewById(R.id.list_majority_notes);
         }
     }

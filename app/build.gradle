@@ -25,12 +25,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.codeslap:persistence:0.9.22'
     compile 'joda-time:joda-time:2.5'
-    compile 'com.melnykov:floatingactionbutton:1.1.0'
-    compile 'com.github.gabrielemariotti.cards:cardslib-core:2.0.1'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
-    compile 'com.android.support:support-v4:21.0.2'
+    compile project(':material')
 }

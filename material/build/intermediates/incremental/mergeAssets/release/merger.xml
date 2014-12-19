@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/renan/developer/workspace/English/material/src/main/assets"><file name="sprite_check.png" path="/home/renan/developer/workspace/English/material/src/main/assets/sprite_check.png"/></source></dataSet><dataSet config="release"><source path="/home/renan/developer/workspace/English/material/src/release/assets"/></dataSet></merger>
