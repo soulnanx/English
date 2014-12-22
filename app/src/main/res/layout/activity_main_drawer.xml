@@ -16,11 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"/>
-
     </RelativeLayout>
-
-
-
 
     <LinearLayout
         android:id="@+id/left_drawer"
@@ -45,7 +41,6 @@
             android:layout_height="match_parent"
             android:choiceMode="singleChoice"
             android:divider="?attr/colorPrimary"
-            android:backgroundTint="@color/livenglish_gray"
             android:dividerHeight="0.5dp" />
 
 

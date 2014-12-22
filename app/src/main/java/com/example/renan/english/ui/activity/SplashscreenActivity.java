@@ -4,6 +4,7 @@ package com.example.renan.english.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
 
 import com.example.renan.english.R;
 import com.example.renan.english.util.NavigationUtil;
@@ -15,14 +16,13 @@ public class SplashscreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_splashscreen);
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                go(MainActivity.class);
+                go(DrawerLayoutMain.class);
             }
         }, 2000);
     }

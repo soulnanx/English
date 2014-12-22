@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.example.renan.english.dao.MajorityNoteDAO;
 import com.example.renan.english.dao.PhraseDAO;
 import com.example.renan.english.entity.MajorityNote;
 import com.example.renan.english.entity.Phrase;
+import com.example.renan.english.ui.activity.DrawerLayoutMain;
 import com.example.renan.english.ui.dialog.CreateNoteDialog;
 import com.example.renan.english.ui.dialog.CreatePhraseDialog;
 import com.gc.materialdesign.views.ButtonFloat;
@@ -44,23 +46,24 @@ public class MajorityNoteFragment extends Fragment {
     private Context context;
     private ActionMode.Callback mCallback;
     private MajorityNote majorityNoteClicked;
-    private Toolbar toolbar;
-
-    public MajorityNoteFragment() {}
-
-    public static MajorityNoteFragment newInstance() {
-        MajorityNoteFragment fragment = new MajorityNoteFragment();
-        return fragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_majority_notes, container, false);
 
         init();
+
         showAndHideList();
         configureActionMode();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
     }
 
     private void showAndHideList(){
@@ -75,7 +78,6 @@ public class MajorityNoteFragment extends Fragment {
 
     private void init() {
         this.context = getActivity();
-        setHasOptionsMenu(true);
         ui = new UIHelper();
         app = (App) getActivity().getApplication();
         setList();
@@ -95,11 +97,13 @@ public class MajorityNoteFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 majorityNoteClicked = (MajorityNote)parent.getAdapter().getItem(position);
-                    toolbar.startActionMode(mCallback);
+                ui.toolbar.startActionMode(mCallback);
                 return true;
+
             }
         } ;
     }
+//    ((DrawerLayoutMain)getActivity()).openDrawer();
 
     private AdapterView.OnItemClickListener onItemClickList() {
         return new AdapterView.OnItemClickListener() {
@@ -122,16 +126,18 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private void configureActionMode() {
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+
 
         mCallback = new ActionMode.Callback() {
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                ui.toolbar.setVisibility(View.GONE);
                 return false;
             }
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
+                ui.toolbar.setVisibility(View.VISIBLE);
             }
 
 
@@ -185,9 +191,19 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private void setEvents() {
+        ui.btnMenu.setOnClickListener(onClickBtnMenu());
         ui.btnCreateNote.setOnClickListener(onClickBtnCreateNote());
         ui.listViewMajorityNotes.setOnItemClickListener(onItemClickList());
-        ui.listViewMajorityNotes.setOnItemLongClickListener((AdapterView.OnItemLongClickListener) onLongItemClickList());
+        ui.listViewMajorityNotes.setOnItemLongClickListener(onLongItemClickList());
+    }
+
+    private View.OnClickListener onClickBtnMenu() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayoutMain)getActivity()).openDrawer();
+            }
+        };
     }
 
     private View.OnClickListener onClickBtnCreateNote() {
@@ -255,10 +271,14 @@ public class MajorityNoteFragment extends Fragment {
     private class UIHelper{
         private ButtonFloat btnCreateNote;
         private ListView listViewMajorityNotes;
+        private Toolbar toolbar;
+        private ImageView btnMenu;
 
         private UIHelper() {
+            toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             btnCreateNote = (ButtonFloat) view.findViewById(R.id.create_new_note);
             listViewMajorityNotes = (ListView) view.findViewById(R.id.list_majority_notes);
+            btnMenu = (ImageView)toolbar.findViewById(R.id.toolbar_btn_menu);
         }
     }
 }

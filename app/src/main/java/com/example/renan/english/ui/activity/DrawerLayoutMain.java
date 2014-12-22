@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +17,6 @@ import android.widget.ListView;
 
 import com.example.renan.english.R;
 import com.example.renan.english.adapter.MenuAdapter;
-import com.example.renan.english.entity.MajorityNote;
 import com.example.renan.english.pojo.MenuItemPojo;
 import com.example.renan.english.ui.fragment.MajorityNoteFragment;
 
@@ -41,11 +41,8 @@ public class DrawerLayoutMain extends FragmentActivity {
         mListView = (ListView) findViewById(R.id.list_menu);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mListView.setAdapter(new MenuAdapter(this, R.layout.drawer_list_item, new MenuItemPojo().getItemsMenu()));
+        mListView.setAdapter(new MenuAdapter(this, R.layout.item_drawer_list, new MenuItemPojo().getItemsMenu()));
         mListView.setOnItemClickListener(new DrawerItemClickListener());
-
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -60,7 +57,6 @@ public class DrawerLayoutMain extends FragmentActivity {
             }
 
             public void onDrawerOpened(View drawerView) {
-//                getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -91,6 +87,10 @@ public class DrawerLayoutMain extends FragmentActivity {
             mListView.setItemChecked(position, true);
             selectItem(((MenuItemPojo)parent.getItemAtPosition(position)).getFragmentName());
         }
+    }
+
+    public void openDrawer(){
+        mDrawerLayout.openDrawer(Gravity.LEFT);
     }
 
     private void selectItem(String fragmentName) {
