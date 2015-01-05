@@ -12,6 +12,8 @@ import com.example.renan.english.dao.MajorityNoteDAO;
 import com.example.renan.english.dao.PhraseDAO;
 import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.entity.MajorityNote;
+import com.parse.Parse;
+import com.parse.ParseCrashReporting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,12 @@ public class App extends Application{
         super.onCreate();
         init();
         initDatabase();
+    }
+
+    private void initParse(){
+        ParseCrashReporting.enable(this);
+
+//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
     }
 
     private void init() {

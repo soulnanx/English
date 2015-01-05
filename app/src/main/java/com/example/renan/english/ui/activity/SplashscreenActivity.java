@@ -8,6 +8,7 @@ import android.view.Window;
 
 import com.example.renan.english.R;
 import com.example.renan.english.util.NavigationUtil;
+import com.parse.ParseAnalytics;
 
 public class SplashscreenActivity extends Activity {
 
@@ -17,6 +18,8 @@ public class SplashscreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
+
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
