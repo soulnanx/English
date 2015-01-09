@@ -2,12 +2,13 @@ package com.example.renan.english.ui.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,21 +22,19 @@ import com.example.renan.english.pojo.MenuItemPojo;
 import com.example.renan.english.ui.fragment.MajorityNoteFragment;
 
 
-public class DrawerLayoutMain extends FragmentActivity {
+public class DrawerLayoutMain extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private LinearLayout mDrawerLinear;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private CharSequence mDrawerTitle;
     private ListView mListView;
-    private CharSequence mTitle;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
-        mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLinear = (LinearLayout) findViewById(R.id.left_drawer);
         mListView = (ListView) findViewById(R.id.list_menu);
@@ -44,12 +43,14 @@ public class DrawerLayoutMain extends FragmentActivity {
         mListView.setAdapter(new MenuAdapter(this, R.layout.item_drawer_list, new MenuItemPojo().getItemsMenu()));
         mListView.setOnItemClickListener(new DrawerItemClickListener());
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-                R.string.abc_action_bar_home_description,  /* "open drawer" description for accessibility */
-                R.string.abc_action_bar_home_description  /* "close drawer" description for accessibility */
+                this,
+                mDrawerLayout,
+                toolbar,
+                R.string.abc_action_bar_home_description,
+                R.string.abc_action_bar_home_description
         ) {
             public void onDrawerClosed(View view) {
 //                getActionBar().setTitle(mTitle);
@@ -102,14 +103,13 @@ public class DrawerLayoutMain extends FragmentActivity {
     }
 
     @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-    }
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
+    }
+
+    public Toolbar getToolbar(){
+        return toolbar;
     }
 
     @Override

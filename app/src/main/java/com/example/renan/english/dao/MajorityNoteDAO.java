@@ -3,7 +3,6 @@ package com.example.renan.english.dao;
 
 import com.codeslap.persistence.SqlAdapter;
 import com.example.renan.english.entity.MajorityNote;
-import com.example.renan.english.entity.Phrase;
 
 import java.util.List;
 

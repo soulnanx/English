@@ -14,10 +14,8 @@ import android.widget.Toast;
 
 import com.example.renan.english.R;
 import com.example.renan.english.app.App;
-import com.example.renan.english.dao.MajorityNoteDAO;
 import com.example.renan.english.dao.PhraseDAO;
-import com.example.renan.english.entity.MajorityNote;
-import com.example.renan.english.entity.Phrase;
+import com.example.renan.english.entity.PhraseOld;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -32,7 +30,7 @@ public class CreatePhraseDialog extends DialogFragment {
     private UIHelper uiHelper;
     private View view;
     private App app;
-    private Phrase phrase;
+    private PhraseOld phrase;
     private Bundle bundle;
 
     @Override
@@ -44,7 +42,7 @@ public class CreatePhraseDialog extends DialogFragment {
 
     private void init() {
         bundle = getArguments();
-        phrase = new Phrase();
+        phrase = new PhraseOld();
         app = (App) this.getActivity().getApplication();
         uiHelper = new UIHelper();
         setEvents();

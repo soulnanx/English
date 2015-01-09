@@ -1,13 +1,14 @@
 package com.example.renan.english.entity;
 
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-@ParseClassName("Phrase")
-public class Phrase extends ParseObject {
+@ParseClassName("Dialog")
+public class Dialog extends ParseObject {
 
     public static final String TITLE = "title";
-    public static final String NOTE = "note";
+    public static final String USER = "user";
 
     public String getTitle(){
         return getString(TITLE);
@@ -16,11 +17,13 @@ public class Phrase extends ParseObject {
         put(TITLE, title);
     }
 
-    public ParseObject getNote(){
-        return getParseObject(NOTE);
+
+    public String getUser(){
+        return getString(USER);
     }
-    public void setNote(Note note){
-        put(NOTE, note);
+    public void setUser(String title){
+        put(USER, title);
     }
+
 
 }

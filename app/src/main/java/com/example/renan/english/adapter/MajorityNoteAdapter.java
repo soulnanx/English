@@ -11,7 +11,6 @@ import com.example.renan.english.R;
 import com.example.renan.english.app.App;
 import com.example.renan.english.dao.PhraseDAO;
 import com.example.renan.english.entity.MajorityNote;
-import com.example.renan.english.entity.Phrase;
 
 import java.util.List;
 

@@ -2,25 +2,19 @@ package com.example.renan.english.app;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.codeslap.persistence.DatabaseSpec;
 import com.codeslap.persistence.Persistence;
 import com.codeslap.persistence.PersistenceConfig;
 import com.codeslap.persistence.SqlAdapter;
-import com.example.renan.english.dao.MajorityNoteDAO;
-import com.example.renan.english.dao.PhraseDAO;
-import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.entity.MajorityNote;
+import com.example.renan.english.entity.PhraseOld;
 import com.parse.Parse;
 import com.parse.ParseCrashReporting;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by renan on 12/11/14.
- */
 public class App extends Application{
 
     private List<AsyncTask<?, ?, ?>> tasks;
@@ -35,8 +29,7 @@ public class App extends Application{
 
     private void initParse(){
         ParseCrashReporting.enable(this);
-
-//        Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        Parse.initialize(this, "04BFbyj72fzANpjeAGsMpplJ4H7mxFc7Pc0k477u", "t8NaJBnEMWt3yIoogNVmJ4uUUpUMca9iNNbkW6N0");
     }
 
     private void init() {
@@ -46,7 +39,7 @@ public class App extends Application{
     private void initDatabase() {
         DatabaseSpec database = PersistenceConfig.registerSpec(3);
         database.match(MajorityNote.class);
-        database.match(Phrase.class);
+        database.match(PhraseOld.class);
         adapter = Persistence.getAdapter(this);
     }
 

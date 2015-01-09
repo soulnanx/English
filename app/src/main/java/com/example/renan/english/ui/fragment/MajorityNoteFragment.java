@@ -23,7 +23,7 @@ import com.example.renan.english.app.App;
 import com.example.renan.english.dao.MajorityNoteDAO;
 import com.example.renan.english.dao.PhraseDAO;
 import com.example.renan.english.entity.MajorityNote;
-import com.example.renan.english.entity.Phrase;
+import com.example.renan.english.entity.PhraseOld;
 import com.example.renan.english.ui.activity.DrawerLayoutMain;
 import com.example.renan.english.ui.dialog.CreateNoteDialog;
 import com.example.renan.english.ui.dialog.CreatePhraseDialog;
@@ -178,14 +178,14 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private void addAll(long id, ViewGroup viewGroup){
-        List<Phrase> phrases = PhraseDAO.findAll(app.adapter, id);
+        List<PhraseOld> phraseOlds = PhraseDAO.findAll(app.adapter, id);
         viewGroup.removeAllViews();
 
-        for (Phrase phrase : phrases){
+        for (PhraseOld phraseOld : phraseOlds){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             ViewGroup lnPhrase = (ViewGroup) inflater.inflate( R.layout.item_phrase, null );
             TextView text = (TextView)lnPhrase.findViewById(R.id.text_phrase);
-            text.setText(phrase.getTitle());
+            text.setText(phraseOld.getTitle());
             viewGroup.addView(lnPhrase);
         }
     }

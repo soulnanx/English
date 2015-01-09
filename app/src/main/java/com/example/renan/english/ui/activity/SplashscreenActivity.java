@@ -12,8 +12,6 @@ import com.parse.ParseAnalytics;
 
 public class SplashscreenActivity extends Activity {
 
-    private Handler handler;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +19,7 @@ public class SplashscreenActivity extends Activity {
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 go(DrawerLayoutMain.class);
