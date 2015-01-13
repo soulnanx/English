@@ -22,6 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -31,4 +32,24 @@ dependencies {
     compile 'joda-time:joda-time:2.5'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
     compile project(':material')
+    compile project(':facebook')
 }
+
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            url 'https://maven.parse.com/repo'
+//        }
+//    }
+//    dependencies {
+//        classpath 'com.parse.tools:gradle:1.+'
+//    }
+//}
+//
+//apply plugin: 'com.parse'
+//
+//parse {
+//    applicationId "04BFbyj72fzANpjeAGsMpplJ4H7mxFc7Pc0k477u"
+//    masterKey "t8NaJBnEMWt3yIoogNVmJ4uUUpUMca9iNNbkW6N0"
+//}

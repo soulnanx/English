@@ -35,7 +35,7 @@ public class MinorNoteFragment extends Fragment {
     }
 
     private void setEvents() {
-        ui.btnMenu.setOnClickListener(onClickBtnMenu());
+//        ui.btnMenu.setOnClickListener(onClickBtnMenu());
     }
 
     private View.OnClickListener onClickBtnMenu() {
@@ -60,12 +60,10 @@ public class MinorNoteFragment extends Fragment {
         private ButtonFloat btnCreateNote;
         private ListView listViewMinorNotes;
         private Toolbar toolbar;
-        private ImageView btnMenu;
 
         private UIHelper() {
             toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             btnCreateNote = (ButtonFloat) view.findViewById(R.id.create_new_note);
-            btnMenu = (ImageView)toolbar.findViewById(R.id.toolbar_btn_menu);
         }
     }
 

@@ -7,10 +7,18 @@ import com.codeslap.persistence.DatabaseSpec;
 import com.codeslap.persistence.Persistence;
 import com.codeslap.persistence.PersistenceConfig;
 import com.codeslap.persistence.SqlAdapter;
+import com.example.renan.english.R;
+import com.example.renan.english.entity.Dialog;
 import com.example.renan.english.entity.MajorityNote;
+import com.example.renan.english.entity.Message;
+import com.example.renan.english.entity.Note;
+import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.entity.PhraseOld;
+import com.example.renan.english.entity.User;
 import com.parse.Parse;
 import com.parse.ParseCrashReporting;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +33,25 @@ public class App extends Application{
         super.onCreate();
         init();
         initDatabase();
+        initParse();
     }
 
     private void initParse(){
-        ParseCrashReporting.enable(this);
-        Parse.initialize(this, "04BFbyj72fzANpjeAGsMpplJ4H7mxFc7Pc0k477u", "t8NaJBnEMWt3yIoogNVmJ4uUUpUMca9iNNbkW6N0");
+//        ParseCrashReporting.enable(this);
+        ParseObject.registerSubclass(Phrase.class);
+        ParseObject.registerSubclass(Note.class);
+        ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(Dialog.class);
+        ParseObject.registerSubclass(User.class);
+
+        Parse.initialize(
+                this,
+                getResources().getString(R.string.parse_app_id),
+                getResources().getString(R.string.parse_client_key)
+        );
+
+        ParseFacebookUtils.initialize(getResources().getString(R.string.facebook_app_id));
+
     }
 
     private void init() {
@@ -37,7 +59,7 @@ public class App extends Application{
     }
 
     private void initDatabase() {
-        DatabaseSpec database = PersistenceConfig.registerSpec(3);
+        DatabaseSpec database = PersistenceConfig.registerSpec(4);
         database.match(MajorityNote.class);
         database.match(PhraseOld.class);
         adapter = Persistence.getAdapter(this);

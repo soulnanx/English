@@ -22,14 +22,9 @@ public class SplashscreenActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                go(DrawerLayoutMain.class);
+                NavigationUtil.navigation(SplashscreenActivity.this, LoginActivity.class);
+                finish();
             }
         }, 2000);
     }
-
-    private void go(Class clazz){
-        NavigationUtil.navigation(SplashscreenActivity.this, clazz);
-        finish();
-    }
-
 }

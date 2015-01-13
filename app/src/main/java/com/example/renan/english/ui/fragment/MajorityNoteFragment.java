@@ -131,13 +131,11 @@ public class MajorityNoteFragment extends Fragment {
         mCallback = new ActionMode.Callback() {
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                ui.toolbar.setVisibility(View.GONE);
                 return false;
             }
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                ui.toolbar.setVisibility(View.VISIBLE);
             }
 
 
@@ -191,7 +189,7 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private void setEvents() {
-        ui.btnMenu.setOnClickListener(onClickBtnMenu());
+//        ui.btnMenu.setOnClickListener(onClickBtnMenu());
         ui.btnCreateNote.setOnClickListener(onClickBtnCreateNote());
         ui.listViewMajorityNotes.setOnItemClickListener(onItemClickList());
         ui.listViewMajorityNotes.setOnItemLongClickListener(onLongItemClickList());
@@ -272,13 +270,11 @@ public class MajorityNoteFragment extends Fragment {
         private ButtonFloat btnCreateNote;
         private ListView listViewMajorityNotes;
         private Toolbar toolbar;
-        private ImageView btnMenu;
 
         private UIHelper() {
             toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             btnCreateNote = (ButtonFloat) view.findViewById(R.id.create_new_note);
             listViewMajorityNotes = (ListView) view.findViewById(R.id.list_majority_notes);
-            btnMenu = (ImageView)toolbar.findViewById(R.id.toolbar_btn_menu);
         }
     }
 }

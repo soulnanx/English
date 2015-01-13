@@ -53,7 +53,6 @@ public class DrawerLayoutMain extends ActionBarActivity {
                 R.string.abc_action_bar_home_description
         ) {
             public void onDrawerClosed(View view) {
-//                getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 

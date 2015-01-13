@@ -2,9 +2,10 @@ package com.example.renan.english.entity;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
-@ParseClassName("User")
-public class User extends ParseObject {
+@ParseClassName("_User")
+public class User extends ParseUser {
 
     public static final String EMAIL = "email";
     public static final String USERNAME = "username";
