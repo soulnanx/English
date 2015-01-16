@@ -12,13 +12,18 @@ import android.widget.Toast;
 
 import com.example.renan.english.R;
 import com.example.renan.english.app.App;
-import com.example.renan.english.callback.CallbackDialog;
-import com.example.renan.english.dao.MajorityNoteDAO;
 import com.example.renan.english.entity.MajorityNote;
-import com.example.renan.english.ui.fragment.MajorityNoteFragment;
+import com.example.renan.english.entity.Note;
+import com.example.renan.english.entity.Phrase;
+import com.example.renan.english.entity.User;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.ArrayList;
 
 /**
  * Created by renan on 12/15/14.
@@ -30,7 +35,7 @@ public class CreateNoteDialog extends DialogFragment {
     private UIHelper uiHelper;
     private View view;
     private App app;
-    private MajorityNote note;
+    private Note note;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,7 +45,7 @@ public class CreateNoteDialog extends DialogFragment {
     }
 
     private void init() {
-        note = new MajorityNote();
+        note = new Note();
         app = (App) this.getActivity().getApplication();
         uiHelper = new UIHelper();
         setEvents();
@@ -75,11 +80,13 @@ public class CreateNoteDialog extends DialogFragment {
     private void saveNote() {
         note.setTitleEn(uiHelper.titleEn.getText().toString());
         note.setTitlePt(uiHelper.titlePt.getText().toString());
-        MajorityNoteDAO.save(app.adapter, note);
-        this.getTargetFragment().onActivityResult(getTargetRequestCode(), OK, getActivity().getIntent());
-
+//        note.setUser((User) ParseUser.getCurrentUser());
+        note.setType(Note.MAJORITY);
+        note.saveNote();
+        CreateNoteDialog.this.getTargetFragment().onActivityResult(getTargetRequestCode(), OK, getActivity().getIntent());
         CreateNoteDialog.this.dismiss();
     }
+
 
     private class UIHelper implements Validator.ValidationListener {
         final Validator validator;

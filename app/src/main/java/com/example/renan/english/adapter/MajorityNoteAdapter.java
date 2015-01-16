@@ -11,15 +11,18 @@ import com.example.renan.english.R;
 import com.example.renan.english.app.App;
 import com.example.renan.english.dao.PhraseDAO;
 import com.example.renan.english.entity.MajorityNote;
+import com.example.renan.english.entity.Note;
+import com.example.renan.english.entity.Phrase;
+import com.parse.ParseException;
 
 import java.util.List;
 
 
-public class MajorityNoteAdapter extends ArrayAdapter<MajorityNote> {
+public class MajorityNoteAdapter extends ArrayAdapter<Note> {
 
     private int resource;
 
-    public MajorityNoteAdapter(Context context, int resource, List<MajorityNote> items) {
+    public MajorityNoteAdapter(Context context, int resource, List<Note> items) {
         super(context, resource, items);
         this.resource = resource;
     }
@@ -27,7 +30,7 @@ public class MajorityNoteAdapter extends ArrayAdapter<MajorityNote> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ItemHolder itemHolder;
-        MajorityNote majorityNote = getItem(position);
+        Note note = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(resource, null);
@@ -37,10 +40,11 @@ public class MajorityNoteAdapter extends ArrayAdapter<MajorityNote> {
             itemHolder = (ItemHolder) convertView.getTag();
         }
 
-        if (majorityNote != null) {
-            itemHolder.titlePt.setText(majorityNote.getTitlePt());
-            itemHolder.titleEn.setText(majorityNote.getTitleEn());
-            itemHolder.qtdPhrases.setText(getQtdPhrases(majorityNote.getId()) + "");
+        if (note != null) {
+            itemHolder.titlePt.setText(note.getTitlePt());
+            itemHolder.titleEn.setText(note.getTitleEn());
+
+            itemHolder.qtdPhrases.setText(getQtdPhrases(note));
         }
         notifyDataSetChanged();
         return convertView;
@@ -58,8 +62,8 @@ public class MajorityNoteAdapter extends ArrayAdapter<MajorityNote> {
         }
     }
 
-    private int getQtdPhrases(long idMajorityNote){
-        App app = (App) getContext().getApplicationContext();
-        return PhraseDAO.findQtdItem(app.adapter, idMajorityNote);
+    private String getQtdPhrases(Note note) {
+        List<Phrase> phrases =  Phrase.findAllByNote(note);
+        return phrases != null ? String.valueOf(phrases.size()) : "";
     }
 }

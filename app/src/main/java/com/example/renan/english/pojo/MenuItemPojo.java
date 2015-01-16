@@ -30,7 +30,7 @@ public class MenuItemPojo {
         list.add(new MenuItemPojo(MajorityNoteFragment.class.getName(), R.string.dialog_creator_label, android.R.drawable.ic_menu_my_calendar));
         list.add(new MenuItemPojo(MajorityNoteFragment.class.getName(), R.string.about_label, android.R.drawable.ic_menu_send));
         list.add(new MenuItemPojo(MajorityNoteFragment.class.getName(), R.string.settings_label, android.R.drawable.ic_menu_agenda));
-        list.add(new MenuItemPojo(MajorityNoteFragment.class.getName(), R.string.other_label, android.R.drawable.ic_menu_compass));
+        list.add(new MenuItemPojo(MajorityNoteFragment.class.getName(), R.string.logout, android.R.drawable.ic_menu_compass));
 
         return list;
     }
@@ -46,4 +46,6 @@ public class MenuItemPojo {
     public int getIdDrawableResource() {
         return idDrawableResource;
     }
+
+
 }

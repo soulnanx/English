@@ -8,16 +8,23 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.renan.english.R;
+import com.example.renan.english.app.App;
+import com.example.renan.english.entity.Note;
+import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.entity.User;
 import com.example.renan.english.util.NavigationUtil;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends Activity {
 
@@ -31,15 +38,14 @@ public class LoginActivity extends Activity {
     }
 
     private void init() {
+        NavigationUtil.navigate(LoginActivity.this, DrawerLayoutMain.class);
+        finish();
 
-        if (ParseUser.getCurrentUser() != null) {
-            NavigationUtil.navigation(LoginActivity.this, DrawerLayoutMain.class);
-        } else {
-            ui = new UIHelper();
-            setEvents();
-        }
-
-
+//        if (ParseUser.getCurrentUser() != null) {
+//        } else {
+//            ui = new UIHelper();
+//            setEvents();
+//        }
     }
 
     private void setEvents() {
@@ -74,8 +80,9 @@ public class LoginActivity extends Activity {
                     Toast.makeText(LoginActivity.this, "logou de novo", Toast.LENGTH_SHORT).show();
                 }
 
-                NavigationUtil.navigation(LoginActivity.this, DrawerLayoutMain.class);
+                NavigationUtil.navigate(LoginActivity.this, DrawerLayoutMain.class);
                 makeMeRequest(ParseFacebookUtils.getSession());
+                finish();
             }
 
         };
@@ -90,8 +97,8 @@ public class LoginActivity extends Activity {
                         if (session == Session.getActiveSession()) {
                             if (graphUser != null) {
                                 User user = (User) ParseUser.getCurrentUser();
-                                user.setEmail(graphUser.getUsername());
-                                user.setName(graphUser.getName());
+                                user.setEmail(null != graphUser.getUsername() ? graphUser.getUsername() : "");
+                                user.setName(null != graphUser.getName() ? graphUser.getName() : "");
 
                                 user.saveEventually();
                             }
@@ -100,6 +107,8 @@ public class LoginActivity extends Activity {
                 });
         request.executeAsync();
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -21,12 +21,15 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class App extends Application{
 
     private List<AsyncTask<?, ?, ?>> tasks;
     public SqlAdapter adapter;
+//    public Map<Note, List<Phrase>> mapNotes = new HashMap<>();
 
     @Override
     public void onCreate() {
@@ -38,6 +41,8 @@ public class App extends Application{
 
     private void initParse(){
 //        ParseCrashReporting.enable(this);
+        Parse.enableLocalDatastore(this);
+
         ParseObject.registerSubclass(Phrase.class);
         ParseObject.registerSubclass(Note.class);
         ParseObject.registerSubclass(Message.class);

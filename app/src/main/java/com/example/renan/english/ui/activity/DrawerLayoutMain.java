@@ -20,6 +20,8 @@ import com.example.renan.english.R;
 import com.example.renan.english.adapter.MenuAdapter;
 import com.example.renan.english.pojo.MenuItemPojo;
 import com.example.renan.english.ui.fragment.MajorityNoteFragment;
+import com.example.renan.english.util.NavigationUtil;
+import com.parse.ParseUser;
 
 
 public class DrawerLayoutMain extends ActionBarActivity {
@@ -84,8 +86,16 @@ public class DrawerLayoutMain extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            mListView.setItemChecked(position, true);
-            selectItem(((MenuItemPojo)parent.getItemAtPosition(position)).getFragmentName());
+            MenuItemPojo itemMenu = (MenuItemPojo)parent.getItemAtPosition(position);
+
+            if (itemMenu.getIdStringResource() == R.string.logout){
+                NavigationUtil.navigate(DrawerLayoutMain.this, LoginActivity.class);
+                ParseUser.getCurrentUser().logOut();
+                finish();
+            } else {
+                mListView.setItemChecked(position, true);
+                selectItem(itemMenu.getFragmentName());
+            }
         }
     }
 

@@ -15,10 +15,13 @@ import android.widget.Toast;
 import com.example.renan.english.R;
 import com.example.renan.english.app.App;
 import com.example.renan.english.dao.PhraseDAO;
+import com.example.renan.english.entity.Note;
+import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.entity.PhraseOld;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
+import com.parse.ParseException;
 
 /**
  * Created by renan on 12/15/14.
@@ -30,7 +33,7 @@ public class CreatePhraseDialog extends DialogFragment {
     private UIHelper uiHelper;
     private View view;
     private App app;
-    private PhraseOld phrase;
+    private Phrase phrase;
     private Bundle bundle;
 
     @Override
@@ -42,12 +45,13 @@ public class CreatePhraseDialog extends DialogFragment {
 
     private void init() {
         bundle = getArguments();
-        phrase = new PhraseOld();
+        phrase = new Phrase();
         app = (App) this.getActivity().getApplication();
         uiHelper = new UIHelper();
         setEvents();
         getDialog().setCanceledOnTouchOutside(false);
         getDialog().setTitle(bundle.getString("titleEn"));
+
     }
 
     private void setEvents() {
@@ -91,9 +95,13 @@ public class CreatePhraseDialog extends DialogFragment {
     }
 
     private void saveNote() {
-        phrase.setIdMajorityNote(bundle.getLong("idMajorityNote"));
         phrase.setTitle(uiHelper.title.getText().toString());
-        PhraseDAO.save(app.adapter, phrase);
+        phrase.setNote((Note) bundle.getSerializable("majorityNote"));
+        try {
+            phrase.savePhrase();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.getTargetFragment().onActivityResult(getTargetRequestCode(), OK, getActivity().getIntent());
 
         CreatePhraseDialog.this.dismiss();
