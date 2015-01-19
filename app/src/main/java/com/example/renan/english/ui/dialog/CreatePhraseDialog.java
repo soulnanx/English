@@ -50,7 +50,7 @@ public class CreatePhraseDialog extends DialogFragment {
         uiHelper = new UIHelper();
         setEvents();
         getDialog().setCanceledOnTouchOutside(false);
-        getDialog().setTitle(bundle.getString("titleEn"));
+        getDialog().setTitle(((Note)bundle.getSerializable("note")).getTitleEn());
 
     }
 
@@ -96,9 +96,9 @@ public class CreatePhraseDialog extends DialogFragment {
 
     private void saveNote() {
         phrase.setTitle(uiHelper.title.getText().toString());
-        phrase.setNote((Note) bundle.getSerializable("majorityNote"));
+        phrase.setNote((Note) bundle.getSerializable("note"));
         try {
-            phrase.savePhrase();
+            phrase.savePhrase(getActivity());
         } catch (ParseException e) {
             e.printStackTrace();
         }

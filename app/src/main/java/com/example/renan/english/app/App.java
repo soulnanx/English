@@ -29,7 +29,7 @@ public class App extends Application{
 
     private List<AsyncTask<?, ?, ?>> tasks;
     public SqlAdapter adapter;
-//    public Map<Note, List<Phrase>> mapNotes = new HashMap<>();
+    public Map<Note, List<Phrase>> cacheList = new HashMap<>();
 
     @Override
     public void onCreate() {

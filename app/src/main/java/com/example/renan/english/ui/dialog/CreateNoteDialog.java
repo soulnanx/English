@@ -12,18 +12,12 @@ import android.widget.Toast;
 
 import com.example.renan.english.R;
 import com.example.renan.english.app.App;
-import com.example.renan.english.entity.MajorityNote;
 import com.example.renan.english.entity.Note;
-import com.example.renan.english.entity.Phrase;
-import com.example.renan.english.entity.User;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.util.ArrayList;
 
 /**
  * Created by renan on 12/15/14.
@@ -36,6 +30,7 @@ public class CreateNoteDialog extends DialogFragment {
     private View view;
     private App app;
     private Note note;
+    private int TYPE_NOTE;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,9 +43,22 @@ public class CreateNoteDialog extends DialogFragment {
         note = new Note();
         app = (App) this.getActivity().getApplication();
         uiHelper = new UIHelper();
+        this.TYPE_NOTE = getArguments().getInt("type");
         setEvents();
         getDialog().setCanceledOnTouchOutside(false);
-        getDialog().setTitle(R.string.title_create_dialog_majority_note);
+        setTitle();
+
+    }
+
+    private void setTitle() {
+        switch (this.TYPE_NOTE){
+            case Note.MAJORITY:
+                getDialog().setTitle(R.string.title_create_dialog_majority_note);
+                break;
+            case Note.MINOR:
+                getDialog().setTitle(R.string.title_create_dialog_minor_note);
+                break;
+        }
     }
 
     private void setEvents() {
@@ -80,11 +88,15 @@ public class CreateNoteDialog extends DialogFragment {
     private void saveNote() {
         note.setTitleEn(uiHelper.titleEn.getText().toString());
         note.setTitlePt(uiHelper.titlePt.getText().toString());
-//        note.setUser((User) ParseUser.getCurrentUser());
-        note.setType(Note.MAJORITY);
-        note.saveNote();
-        CreateNoteDialog.this.getTargetFragment().onActivityResult(getTargetRequestCode(), OK, getActivity().getIntent());
-        CreateNoteDialog.this.dismiss();
+        note.setType(this.TYPE_NOTE);
+        note.saveNote(getActivity(), new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                CreateNoteDialog.this.getTargetFragment().onActivityResult(getTargetRequestCode(), OK, getActivity().getIntent());
+                CreateNoteDialog.this.dismiss();
+            }
+        });
+
     }
 
 

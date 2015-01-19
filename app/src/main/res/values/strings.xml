@@ -9,6 +9,7 @@
     <string name="text_title_pt">Title in portuguese</string>
     <string name="text_title_en">Title in english</string>
     <string name="title_create_dialog_majority_note">New majority note</string>
+    <string name="title_create_dialog_minor_note">New minor note</string>
     <string name="msg_create_note">A new note was created</string>
     <string name="msg_create_note_cancel">canceled</string>
     <string name="msg_create_phrase">A new phrase was created</string>
@@ -38,5 +39,11 @@
     <string name="title_activity_login">Login</string>
     <string name="login_btn">Login com Facebook</string>
     <string name="logout">Logout</string>
+    <string name="dialog_create_new_title">New note</string>
+
+    <string name="dialog_body">Are you sure?</string>
+    <string name="dialog_delete_phrase">Delete phrase</string>
+    <string name="dialog_delete_btn">Delete</string>
+    <string name="dialog_delete_button">Delete</string>
 
 </resources>

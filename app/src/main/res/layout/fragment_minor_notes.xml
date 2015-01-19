@@ -1,6 +1,6 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,19 +14,21 @@
         android:id="@+id/text_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Coming soon..."
+        android:text="@string/text_empty"
         android:layout_gravity="center"
         android:gravity="center"
         android:visibility="visible"/>
 
-    <!--<com.melnykov.fab.FloatingActionButton-->
-        <!--android:id="@+id/create_new_note"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|right"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:src="@drawable/ic_plus"-->
-        <!--fab:fab_colorNormal="@color/livenglish_blue"-->
-        <!--fab:fab_colorPressed="@color/positive_button"/>-->
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/create_new_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="24dp"
+        android:background="@color/livenglish_orange"
+        materialdesign:animate="true"
+        materialdesign:iconDrawable="@drawable/ic_plus" />
 
 </FrameLayout>

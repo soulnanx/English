@@ -14,20 +14,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.renan.english.R;
-import com.example.renan.english.adapter.MajorityNoteAdapter;
+import com.example.renan.english.adapter.NoteAdapter;
 import com.example.renan.english.app.App;
 import com.example.renan.english.entity.Note;
 import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.ui.dialog.CreateNoteDialog;
 import com.example.renan.english.ui.dialog.CreatePhraseDialog;
+import com.example.renan.english.util.FilterNotesUtil;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.widgets.Dialog;
 import com.gc.materialdesign.widgets.SnackBar;
+import com.parse.DeleteCallback;
 import com.parse.ParseException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,13 +46,13 @@ public class MajorityNoteFragment extends Fragment {
     private Context context;
     private ActionMode.Callback mCallback;
     private Note majorityNoteClicked;
+    private Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_majority_notes, container, false);
         init();
-        showAndHideList();
         configureActionMode();
         return view;
     }
@@ -61,16 +62,6 @@ public class MajorityNoteFragment extends Fragment {
         super.onStart();
 
 
-    }
-
-    private void showAndHideList() {
-            if (Note.findAll(Note.MAJORITY).size() > 0) {
-                view.findViewById(R.id.text_empty).setVisibility(View.GONE);
-                view.findViewById(R.id.list_majority_notes).setVisibility(View.VISIBLE);
-            } else {
-                view.findViewById(R.id.list_majority_notes).setVisibility(View.GONE);
-                view.findViewById(R.id.text_empty).setVisibility(View.VISIBLE);
-            }
     }
 
     private void init() {
@@ -83,11 +74,20 @@ public class MajorityNoteFragment extends Fragment {
 
     public void setList() {
 
+        if (FilterNotesUtil.filterByType(app.cacheList, Note.MAJORITY).size() > 0) {
+            view.findViewById(R.id.text_empty).setVisibility(View.GONE);
+            view.findViewById(R.id.list_majority_notes).setVisibility(View.VISIBLE);
+
             ui.listViewMajorityNotes.setAdapter(
-                    new MajorityNoteAdapter(
+                    new NoteAdapter(
                             MajorityNoteFragment.this.getActivity(),
-                            R.layout.item_majority_note,
-                            Note.findAll(Note.MAJORITY)));
+                            R.layout.item_note,
+                            FilterNotesUtil.filterByType(app.cacheList, Note.MAJORITY)));
+
+        } else {
+            view.findViewById(R.id.list_majority_notes).setVisibility(View.GONE);
+            view.findViewById(R.id.text_empty).setVisibility(View.VISIBLE);
+        }
     }
 
     private AdapterView.OnItemLongClickListener onLongItemClickList() {
@@ -106,14 +106,11 @@ public class MajorityNoteFragment extends Fragment {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ViewGroup viewGroup = (ViewGroup) view.findViewById(R.id.phrases);
+                final ViewGroup viewGroup = (ViewGroup) view.findViewById(R.id.phrases);
 
                 if (viewGroup.getVisibility() == View.GONE) {
                     viewGroup.setVisibility(View.VISIBLE);
-
-                    addAll(Phrase.findAllByNote((Note) parent.getAdapter().getItem(position)),
-                            viewGroup);
-                    new SnackBar(MajorityNoteFragment.this.getActivity(), "Erro", "Erro ao buscar nota", null).show();
+                    addAll(((App)getActivity().getApplication()).cacheList.get((Note) parent.getAdapter().getItem(position)), viewGroup);
                 } else {
                     viewGroup.setVisibility(View.GONE);
                 }
@@ -138,7 +135,7 @@ public class MajorityNoteFragment extends Fragment {
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                mode.setTitle("1 selected");
+                mode.setTitle(majorityNoteClicked.getTitleEn());
                 getActivity().getMenuInflater().inflate(R.menu.context_menu_new, menu);
                 return true;
             }
@@ -148,16 +145,14 @@ public class MajorityNoteFragment extends Fragment {
 
                 switch (item.getItemId()) {
                     case R.id.item_menu_delete:
-                        deleteNote();
-                        mode.finish();
-                        showAndHideList();
+                        showDialog();
                         break;
                     case R.id.item_menu_create:
                         createPhrase();
-                        mode.finish();
-                        showAndHideList();
                         break;
                 }
+                mode.finish();
+                setList();
                 return false;
             }
         };
@@ -168,9 +163,15 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private void deleteNote() {
-        majorityNoteClicked.deleteNote();
-        new SnackBar(MajorityNoteFragment.this.getActivity(), "Erro", "Erro ao deletar nota", null).show();
-        setList();
+
+        majorityNoteClicked.deleteNote(getActivity(), new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                dialog.dismiss();
+                setList();
+                new SnackBar(MajorityNoteFragment.this.getActivity(), majorityNoteClicked.getTitleEn(), "", null).show();
+            }
+        });
     }
 
     private void addAll(List<Phrase> phrases, ViewGroup viewGroup) {
@@ -183,6 +184,34 @@ public class MajorityNoteFragment extends Fragment {
             text.setText(phrase.getTitle());
             viewGroup.addView(lnPhrase);
         }
+    }
+
+    private void showDialog(){
+        dialog = new Dialog(getActivity(), getResources().getString(R.string.dialog_delete_phrase), getResources().getString(R.string.dialog_body));
+        dialog.setOnAcceptButtonClickListener(dialogAcceptEvent());
+        dialog.setOnCancelButtonClickListener(dialogCancelEvent());
+//        dialog.getButtonAccept().setText(getResources().getString(R.string.dialog_delete_button));
+        dialog.show();
+
+    }
+
+    private View.OnClickListener dialogCancelEvent() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        };
+    }
+
+    private View.OnClickListener dialogAcceptEvent() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteNote();
+
+            }
+        };
     }
 
     private void setEvents() {
@@ -208,27 +237,20 @@ public class MajorityNoteFragment extends Fragment {
             switch (resultCode) {
                 case OK:
                     setList();
-                    showAndHideList();
-                    Toast.makeText(MajorityNoteFragment.this.getActivity(), R.string.msg_create_note, Toast.LENGTH_SHORT).show();
-                    new SnackBar(
-                            MajorityNoteFragment.this.getActivity(),
-                            getResources().getString(R.string.msg_create_note),
-                            null, null)
-                            .show();
+                    new SnackBar(MajorityNoteFragment.this.getActivity(), getResources().getString(R.string.msg_create_note), null, null).show();
                     break;
                 case CANCEL:
-                    Toast.makeText(MajorityNoteFragment.this.getActivity(), R.string.msg_create_note_cancel, Toast.LENGTH_SHORT).show();
+                    new SnackBar(MajorityNoteFragment.this.getActivity(), getResources().getString(R.string.msg_create_note_cancel), null, null).show();
                     break;
             }
         } else if (requestCode == DIALOG_CREATE_PHRASE) {
             switch (resultCode) {
                 case OK:
                     setList();
-                    showAndHideList();
-                    Toast.makeText(MajorityNoteFragment.this.getActivity(), R.string.msg_create_phrase, Toast.LENGTH_SHORT).show();
+                    new SnackBar(MajorityNoteFragment.this.getActivity(), getResources().getString(R.string.msg_create_phrase), null, null).show();
                     break;
                 case CANCEL:
-                    Toast.makeText(MajorityNoteFragment.this.getActivity(), R.string.msg_create_phrase_cancel, Toast.LENGTH_SHORT).show();
+                    new SnackBar(MajorityNoteFragment.this.getActivity(), getResources().getString(R.string.msg_create_phrase_cancel), null, null).show();
                     break;
             }
         }
@@ -244,16 +266,18 @@ public class MajorityNoteFragment extends Fragment {
         CreateNoteDialog createNoteDialog = new CreateNoteDialog();
         createNoteDialog.setRetainInstance(true);
         createNoteDialog.setTargetFragment(this, DIALOG_CREATE_NOTE);
+        Bundle b = new Bundle();
+        b.putInt("type", Note.MAJORITY);
+        createNoteDialog.setArguments(b);
         createNoteDialog.show(getFragmentManager(), "dialog");
     }
 
     private void openDialogCreatePhrase() {
         CreatePhraseDialog createPhraseDialog = new CreatePhraseDialog();
         createPhraseDialog.setRetainInstance(true);
-        createPhraseDialog.setTargetFragment(this, DIALOG_CREATE_NOTE);
+        createPhraseDialog.setTargetFragment(this, DIALOG_CREATE_PHRASE);
         Bundle b = new Bundle();
-        b.putSerializable("majorityNote", majorityNoteClicked);
-        b.putString("titleEn", majorityNoteClicked.getTitleEn());
+        b.putSerializable("note", majorityNoteClicked);
         createPhraseDialog.setArguments(b);
         createPhraseDialog.show(getFragmentManager(), "dialog");
     }
