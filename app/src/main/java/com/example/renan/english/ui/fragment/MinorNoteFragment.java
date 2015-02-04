@@ -22,6 +22,7 @@ import com.example.renan.english.ui.activity.DrawerLayoutMain;
 import com.example.renan.english.ui.dialog.CreateNoteDialog;
 import com.example.renan.english.ui.dialog.CreatePhraseDialog;
 import com.example.renan.english.util.FilterNotesUtil;
+import com.example.renan.english.util.NotesUtil;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.Dialog;
 import com.gc.materialdesign.widgets.SnackBar;
@@ -101,7 +102,11 @@ public class MinorNoteFragment extends Fragment {
     }
 
     private void createPhrase() {
-        openDialogCreatePhrase();
+        if (NotesUtil.qtdPhrasesInNote(getActivity(), minorNoteClicked) >= 1){
+            showLimitDialog();
+        } else {
+            openDialogCreatePhrase();
+        }
     }
 
     private void showDialog(){
@@ -109,6 +114,20 @@ public class MinorNoteFragment extends Fragment {
         dialog.setOnAcceptButtonClickListener(dialogAcceptEvent());
         dialog.setOnCancelButtonClickListener(dialogCancelEvent());
         dialog.show();
+
+    }
+
+    private void showLimitDialog(){
+        dialog = new Dialog(getActivity(), getResources().getString(R.string.dialog_limit_title) , getResources().getString(R.string.dialog_limit_body_minor));
+
+        dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.getButtonCancel().setVisibility(View.GONE);
 
     }
 
@@ -126,7 +145,6 @@ public class MinorNoteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 deleteNote();
-
             }
         };
     }

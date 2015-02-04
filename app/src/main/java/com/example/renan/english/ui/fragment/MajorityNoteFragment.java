@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import com.example.renan.english.entity.Phrase;
 import com.example.renan.english.ui.dialog.CreateNoteDialog;
 import com.example.renan.english.ui.dialog.CreatePhraseDialog;
 import com.example.renan.english.util.FilterNotesUtil;
+import com.example.renan.english.util.NotesUtil;
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.widgets.Dialog;
 import com.gc.materialdesign.widgets.SnackBar;
@@ -145,7 +148,7 @@ public class MajorityNoteFragment extends Fragment {
 
                 switch (item.getItemId()) {
                     case R.id.item_menu_delete:
-                        showDialog();
+                        showDeleteDialog();
                         break;
                     case R.id.item_menu_create:
                         createPhrase();
@@ -159,7 +162,12 @@ public class MajorityNoteFragment extends Fragment {
     }
 
     private void createPhrase() {
-        openDialogCreatePhrase();
+
+        if (NotesUtil.qtdPhrasesInNote(getActivity(), majorityNoteClicked) >= 4){
+            showLimitDialog();
+        } else {
+            openDialogCreatePhrase();
+        }
     }
 
     private void deleteNote() {
@@ -186,12 +194,26 @@ public class MajorityNoteFragment extends Fragment {
         }
     }
 
-    private void showDialog(){
+    private void showDeleteDialog(){
         dialog = new Dialog(getActivity(), getResources().getString(R.string.dialog_delete_phrase), getResources().getString(R.string.dialog_body));
         dialog.setOnAcceptButtonClickListener(dialogAcceptEvent());
         dialog.setOnCancelButtonClickListener(dialogCancelEvent());
 //        dialog.getButtonAccept().setText(getResources().getString(R.string.dialog_delete_button));
         dialog.show();
+
+    }
+
+    private void showLimitDialog(){
+        dialog = new Dialog(getActivity(), getResources().getString(R.string.dialog_limit_title) , getResources().getString(R.string.dialog_limit_body_majority));
+
+        dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.getButtonCancel().setVisibility(View.GONE);
 
     }
 

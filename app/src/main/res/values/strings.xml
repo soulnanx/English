@@ -17,11 +17,6 @@
     <string name="text_empty">You still don\'t have any notes</string>
     <string name="title_activity_splashscreen">LivEnglish</string>
     <string name="dialog_validate">VALIDATE</string>
-    <string name="title_activity_main_activity2">MainActivity2</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -45,5 +40,8 @@
     <string name="dialog_delete_phrase">Delete phrase</string>
     <string name="dialog_delete_btn">Delete</string>
     <string name="dialog_delete_button">Delete</string>
+    <string name="dialog_limit_title">Congratulations!</string>
+    <string name="dialog_limit_body_majority">Four phrases is enough to learn a new "majority" expression</string>
+    <string name="dialog_limit_body_minor">One phrase is enough to learn a new "minor" expression</string>
 
 </resources>

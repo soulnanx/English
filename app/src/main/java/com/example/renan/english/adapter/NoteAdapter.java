@@ -10,12 +10,9 @@ import android.widget.TextView;
 
 import com.example.renan.english.R;
 import com.example.renan.english.app.App;
-import com.example.renan.english.dao.PhraseDAO;
-import com.example.renan.english.entity.MajorityNote;
 import com.example.renan.english.entity.Note;
 import com.example.renan.english.entity.Phrase;
-import com.parse.FindCallback;
-import com.parse.ParseException;
+import com.example.renan.english.util.NotesUtil;
 
 import java.util.List;
 
@@ -48,7 +45,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
             if (note.getType() == Note.MAJORITY){
                 itemHolder.qtdPhrases.setVisibility(View.VISIBLE);
-                itemHolder.qtdPhrases.setText(getQtdPhrases(note));
+                itemHolder.qtdPhrases.setText(NotesUtil.qtdPhrasesInNote(getContext(),note) + "");
                 itemHolder.phrases.setVisibility(View.GONE);
             } else {
                 itemHolder.box.setVisibility(View.GONE);
@@ -68,9 +65,9 @@ public class NoteAdapter extends ArrayAdapter<Note> {
         LinearLayout phrases;
 
         ItemHolder(View view) {
-            this.titleEn = (TextView) view.findViewById(R.id.item_majority_note_title_en);
-            this.titlePt = (TextView) view.findViewById(R.id.item_majority_note_title_pt);
-            this.qtdPhrases = (TextView) view.findViewById(R.id.item_majority_note_qtd_phrases);
+            this.titleEn = (TextView) view.findViewById(R.id.item_note_title_en);
+            this.titlePt = (TextView) view.findViewById(R.id.item_note_title_pt);
+            this.qtdPhrases = (TextView) view.findViewById(R.id.item_note_qtd_phrases);
             this.phrases = (LinearLayout) view.findViewById(R.id.phrases);
             this.box = (LinearLayout) view.findViewById(R.id.box_qtd_phrases);
 
@@ -89,7 +86,4 @@ public class NoteAdapter extends ArrayAdapter<Note> {
         }
     }
 
-    private String getQtdPhrases(Note note) {
-            return ((App)getContext().getApplicationContext()).cacheList.get(note).size() + "";
-    }
 }

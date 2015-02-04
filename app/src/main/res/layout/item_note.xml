@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_majority_note_title_en"
+                android:id="@+id/item_note_title_en"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Crush on"
@@ -29,7 +29,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/item_majority_note_title_pt"
+                android:id="@+id/item_note_title_pt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ter uma queda com"
@@ -54,7 +54,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/item_majority_note_qtd_phrases"
+                android:id="@+id/item_note_qtd_phrases"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
